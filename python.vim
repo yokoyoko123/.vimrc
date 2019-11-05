@@ -19,29 +19,24 @@ nnoremap ` <esc>/`<CR>xvw<c-g>
 inoremap ` <esc><c-o>:stopi<cr>/`<CR>xvw<c-g>
 snoremap ` <ESC>x/`<CR>xvw<c-g>
 function! Python() 
+        normal b
         let l:str=expand("<cword>")
         "echo str 
-        normal bdw
-        inoremap e <CR>
-        inoremap t <tab>
-        
-
-
-
+        normal dw
+        let ind = 1
+        inoremap  e <CR>
+        inoremap  t <tab>
 "Begin making template
 "---------------class series-----------------------
         if str =="class"
                 echo "success!!"
 
                 let text = [
-                                        \'class `ClassName:',
-                                        \'',
+                                        \'class `ClassName:(`object:):',
                                         \'    def __init__(self, `arg:)',
                                         \'        `pass:',
                                         \]
-                let failed = append('.',text)
-                normal `
-                set nohlsearch
+                let ind = 0
         elseif str =="classd"
                 echo "success!!"
 
@@ -52,90 +47,86 @@ function! Python()
                                         \'    """`message:"""',
                                         \'        `pass:',
                                         \]
-                let failed = append('.',text)
-                normal `
+                let ind = 0
 "---------------if series-----------------------
          elseif str == "if"
                 let text = ['if( `condition: ):',
                             \'    `pass:',
                            \]
-                let flag = 'hikakin'
-                for txt in text
-                        let failed = append('.',txt)
-                        if flag == 'hikakin'
-                                normal JAet
-                                unlet flag
-                                let flag ='youtuber'
-                        else
-                                normal xxxxJAet
-                        endif
-                endfor
-                "let failed = append('.',text) 
-                normal `
          elseif str == "ifd"
                 let text = ['if( `condition: ):',
                             \'    """ `comment:"""',
                             \'    `pass:',
                            \]
-                let failed = append('.',text)
-                normal `
 "---------------while series-----------------------
          elseif str == "while"
                 let text = ['while( `condition: ):',
                             \'    `pass:'
                            \]
-                let failed = append('.',text)
-                normal `
          elseif str == "whiled"
                 let text = ['while( `condition: ):',
                             \'    """ `comment:"""',
                             \'    `pass:'
                            \]
-                let failed = append('.',text)
-                normal `
 "---------------for series-----------------------
          elseif str == "for"
                 let text = ['for( `arg: in `arg: ):',
                             \'    `pass:'
                            \]
-                let failed = append('.',text)
-                normal J`
          elseif str == "forr"
                 let text = ['for( `arg: in range(`arg:) ):',
                             \'    `pass:'
                            \]
-                let failed = append('.',text)
-                normal `
          elseif str == "ford"
                 let text = ['for( `arg: in `arg: ):',
                             \'    """ `comment:"""',
                             \'    `pass:'
                            \]
-                let failed = append('.',text)
-                normal `
          elseif str == "forrd"
                 let text = ['for( `arg: in range(`arg:) ):',
                             \'    """ `comment:"""',
                             \'    `pass:'
                            \]
-                let failed = append('.',text)
-                normal `
 "---------------input series-----------------------
          elseif str == "inpd"
                 let text = [' input("`comment:")',
                             \'`next:'
                             \]
-                let failed = append('.',text)
-                normal J`
          elseif str == "inp"
                 let text = [' input()',
                             \'`next:'
                             \]
-                let failed = append('.',text)
-                normal J`
+"---------------print -----------------------
+         elseif str == "print"
+                let text = [' print(`comment:/)',
+                            \'`next:'
+                            \]
+                
          endif
+
+"---------------output -----------------------
+         let flag = 'hikakin'
+         if ind ==1 
+                 for txt in text
+                         let failed = append('.',txt)
+                         if flag == 'hikakin'
+                                 normal JAet
+                                 unlet flag
+                                 let flag ='youtuber'
+                         else
+                                 normal xxxxJAet
+                         endif
+                 endfor
+         else
+                 let failed = append('.',text)
+                 normal dd`
+         endif
+         
+        "let failed = append('.',text) 
+         
          iunmap e
          iunmap t
+         normal `
 endfunction
 
 
